@@ -1,4 +1,4 @@
-import * as Carousel from "./Carousel.js";
+import * as Carousel from './Carousel.js;';
 import axios from "axios";
 
 
@@ -30,33 +30,19 @@ axios.defaults.baseURL = `https://api.thecatapi.com/v1/breeds`;
  */
 async function initialLoad() {
   try {
-    const response = await axios.get("/breeds");
-    const breeds = response.data;
-
-
-    // Clear existing options
-    breedSelect.innerHTML = "";
-
-
-    // Populate the breedSelect dropdown
-    breeds.forEach((breed) => {
+    let response = await fetch(URL);
+    let data = await response.json();
+    console.log(data);
+    data.forEach((breed) => {
       const option = document.createElement("option");
       option.value = breed.id;
       option.textContent = breed.name;
       breedSelect.appendChild(option);
     });
-    // Call to populate the carousel with the first breed
-    if (breeds.length > 0) {
-      breedSelect.value = breeds[0].id;
-      handleBreedChange(); // Populate the carousel with the first breed
-    }
   } catch (err) {
-    console.error("Error fetching breeds: ", err);
+    console.error(err);
   }
 }
-
-
-// Execute the initial load function
 initialLoad();
 /**
  * 2. Create an event handler for breedSelect that does the following:
